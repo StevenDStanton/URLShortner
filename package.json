@@ -1,0 +1,23 @@
+{
+  "name": "urlshortner",
+  "version": "0.0.1",
+  "description": "Custom URL Shortner",
+  "main": "dist/app.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/StevenDStanton/URLShortner.git"
+  },
+  "keywords": [
+    "URL",
+    "Shortner"
+  ],
+  "author": "Steven Stanton",
+  "license": "AGPL-3.0",
+  "bugs": {
+    "url": "https://github.com/StevenDStanton/URLShortner/issues"
+  },
+  "homepage": "https://github.com/StevenDStanton/URLShortner#readme"
+}
