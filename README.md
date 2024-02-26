@@ -11,7 +11,7 @@ This is just a typical URL shortner. I wanted a quick and simple one to use for 
 - SQLite
 
 ## Todo
-- [ ] Setup Node Server
+- [x] Setup Node Server
 - [ ] Setup SQLite Database
 - [x] Setup Dockerfile
 - [ ] Setup Docker Volume for persistant Data
