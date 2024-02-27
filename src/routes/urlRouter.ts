@@ -9,14 +9,14 @@ import { incrementBase68String } from '../lib/base68';
 
 const router: Router = Router();
 
-router.put('/', async (req: Request, res: Response) => {
+router.put('/:index?', async (req: Request, res: Response) => {
   try {
-    const { index, url } = req.body;
+    const { url } = req.body;
     if (!url) {
       return res.status(400).send('URL is required');
     }
 
-    let indexKey = index;
+    let indexKey = req.params.index;
     if (!indexKey) {
       const latestIndex = await getLatestIndex();
       indexKey = incrementBase68String(latestIndex);
