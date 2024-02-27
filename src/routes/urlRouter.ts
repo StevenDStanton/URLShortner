@@ -9,7 +9,7 @@ import { incrementBase68String } from '../lib/base68';
 
 const router: Router = Router();
 
-router.put('/urls', async (req: Request, res: Response) => {
+router.put('/', async (req: Request, res: Response) => {
   try {
     const { index, url } = req.body;
     if (!url) {
@@ -35,12 +35,12 @@ router.put('/urls', async (req: Request, res: Response) => {
   }
 });
 
-router.get('/urls/:index', async (req: Request, res: Response) => {
+router.get('/:index', async (req: Request, res: Response) => {
   try {
     const indexKey = req.params.index;
     const url = await getURL(indexKey);
     if (url) {
-      res.json({ index: indexKey, url });
+      res.redirect(url);
     } else {
       res.status(404).send('URL not found');
     }

@@ -8,13 +8,13 @@ export async function openDb() {
   });
 }
 
-export async function getURL(indexKey: string): Promise<string | boolean> {
+export async function getURL(indexKey: string): Promise<string> {
   const db = await openDb();
   const row = await db.get('SELECT url FROM url_map WHERE index_key = ?', [
     indexKey,
   ]);
   await db.close();
-  return row ? row.url : false;
+  return row ? row.url : null;
 }
 
 export async function putURL(indexKey: string, url: string): Promise<boolean> {
