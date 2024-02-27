@@ -16,19 +16,16 @@ router.put('/:index?', async (req: Request, res: Response) => {
       return res.status(400).send('URL is required');
     }
     let genKey = false;
-    let latestIndex = '';
     let indexKey = req.params.index;
     if (!indexKey) {
       genKey = true;
-      latestIndex = await getLatestIndex();
-      console.log(`Latest index: ${latestIndex}`);
+      indexKey = await getLatestIndex();
     }
     const success = await putURL(indexKey, url);
+
     if (success) {
       if (genKey) {
-        console.log(`Latest index: ${latestIndex}`);
-        indexKey = incrementBase68String(latestIndex);
-        console.log(`New index: ${indexKey}`);
+        indexKey = incrementBase68String(indexKey);
         await setLatestIndex(indexKey);
       }
       const message = `URL associated with index: ${indexKey} has been updated.`;
@@ -37,7 +34,6 @@ router.put('/:index?', async (req: Request, res: Response) => {
       res.status(500).send('Failed to update the database');
     }
   } catch (error) {
-    console.error('Error processing URL:', error);
     res.status(500).send('Internal Server Error');
   }
 });
