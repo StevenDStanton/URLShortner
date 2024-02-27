@@ -1,7 +1,6 @@
 'use strict';
 import express, { Application } from 'express';
 import dotenv from 'dotenv';
-import { indexRouter } from './routes/index';
 import { urlRouter } from './routes/urlRouter';
 import { initializeDb } from './lib/sqliteDb';
 

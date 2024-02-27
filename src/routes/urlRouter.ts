@@ -25,11 +25,11 @@ router.put('/:index?', async (req: Request, res: Response) => {
 
     if (success) {
       if (genKey) {
-        indexKey = incrementBase68String(indexKey);
-        await setLatestIndex(indexKey);
+        const newIndexKey = incrementBase68String(indexKey);
+        await setLatestIndex(newIndexKey);
       }
       const message = `URL associated with index: ${indexKey} has been updated.`;
-      res.json({ message, index: indexKey, url });
+      res.json({ index: indexKey, url });
     } else {
       res.status(500).send('Failed to update the database');
     }
