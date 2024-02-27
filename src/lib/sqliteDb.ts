@@ -38,19 +38,13 @@ export async function getLatestIndex(): Promise<string> {
   const db = await openDb();
   const row = await db.get('SELECT value FROM latest_record WHERE id = 0');
   await db.close();
-  return row
-    ? Buffer.from(row.value, 'base64').toString()
-    : Buffer.from('0').toString('base64');
+  return row ? row.value : null;
 }
 
 export async function setLatestIndex(value: string): Promise<boolean> {
   const db = await openDb();
   try {
-    const base64Value = Buffer.from(value).toString('base64');
-    await db.run(
-      'UPDATE latest_record SET value = ? WHERE id = 0',
-      base64Value,
-    );
+    await db.run('UPDATE latest_record SET value = ? WHERE id = 0', value);
     await db.close();
     return true;
   } catch (error) {

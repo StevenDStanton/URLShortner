@@ -76,7 +76,12 @@ switch ($action.ToLower()) {
     "stop" {
         Stop-DockerContainer
     }
+    "restart" {
+        Write-Host "Restarting container $containerName..."
+        Stop-DockerContainer
+        Start-DockerContainer
+    }
     default {
-        Write-Host "Invalid action: $action. Please use 'start' or 'stop'."
+        Write-Host "Invalid action: $action. Please use 'start', 'stop', or 'restart'."
     }
 }
