@@ -17,11 +17,15 @@ router.put('/:index?', async (req: Request, res: Response) => {
     }
 
     let indexKey = req.params.index;
+    console.log(`indexKey 1: ${indexKey}`);
     if (!indexKey) {
       const latestIndex = await getLatestIndex();
+      console.log(`Latest Index 1: ${latestIndex}`);
       indexKey = incrementBase68String(latestIndex);
+      console.log(`indexKey 2: ${indexKey}`);
       await setLatestIndex(indexKey);
     }
+    console.log(`indexKey 3: ${indexKey} + url: ${url}`);
     const success = await putURL(indexKey, url);
     if (success) {
       const message = `URL associated with index: ${indexKey} has been updated.`;
@@ -40,6 +44,7 @@ router.get('/:index', async (req: Request, res: Response) => {
     const indexKey = req.params.index;
     const url = await getURL(indexKey);
     if (url) {
+      console.log(`Redirecting to: ${url}`);
       res.redirect(url);
     } else {
       res.status(404).send('URL not found');

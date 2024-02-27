@@ -28,3 +28,5 @@ dist
 # Operating System
 .DS_Store
 Thumbs.db
+
+*.sqlite
