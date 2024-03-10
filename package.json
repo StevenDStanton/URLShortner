@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/StevenDStanton/URLShortner#readme",
   "dependencies": {
+    "@libsql/client": "^0.5.3",
     "@types/express": "^4.17.21",
     "@types/node": "^20.11.20",
     "dotenv": "^16.4.5",

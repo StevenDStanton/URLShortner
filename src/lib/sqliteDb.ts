@@ -1,24 +1,30 @@
-import sqlite3 from 'sqlite3';
-import { Database, open } from 'sqlite';
+import { createClient } from '@libsql/client';
 
-export async function openDb() {
-  return open({
-    filename: './db.sqlite',
-    driver: sqlite3.Database,
-  });
-}
+const client = createClient({
+  url: 'libsql://wxs-us-stevendstanton.turso.io',
+  authToken: '389f22c4-eded-4354-9bca-268a58eb6ade',
+});
+
+// await client.execute({
+//   sql: "INSERT INTO users VALUES (:name)",
+//   args: { name: "Iku" },
+// });
 
 export async function getURL(indexKey: string): Promise<string> {
-  const db = await openDb();
-  const row = await db.get('SELECT url FROM url_map WHERE index_key = ?', [
-    indexKey,
-  ]);
-  await db.close();
-  return row ? row.url : null;
+  const results = await client.execute({
+    sql: 'SELECT url from url_map WHERE index_key = (:indexKey)',
+    args: { indexKey: indexKey },
+  });
+  if (
+    results &&
+    results.rows.length > 0 &&
+    typeof results.rows[0].url === 'string'
+  ) {
+    return results.rows[0].url;
+  }
 }
 
 export async function putURL(indexKey: string, url: string): Promise<boolean> {
-  const db = await openDb();
   try {
     await db.run(
       `INSERT INTO url_map (index_key, url) VALUES (?, ?)
@@ -35,14 +41,12 @@ export async function putURL(indexKey: string, url: string): Promise<boolean> {
 }
 
 export async function getLatestIndex(): Promise<string> {
-  const db = await openDb();
   const row = await db.get('SELECT value FROM latest_record WHERE id = 0');
   await db.close();
   return row ? row.value : null;
 }
 
 export async function setLatestIndex(value: string): Promise<boolean> {
-  const db = await openDb();
   try {
     await db.run('UPDATE latest_record SET value = ? WHERE id = 0', value);
     await db.close();
@@ -52,27 +56,4 @@ export async function setLatestIndex(value: string): Promise<boolean> {
     await db.close();
     return false;
   }
-}
-
-export async function initializeDb() {
-  const db = await openDb();
-  await db.exec(`
-      CREATE TABLE IF NOT EXISTS latest_record (
-          id INTEGER PRIMARY KEY,
-          value TEXT
-      )
-    `);
-  await db.run(`
-      INSERT INTO latest_record(id, value)
-      VALUES(0, '0')
-      ON CONFLICT(id) DO NOTHING
-    `);
-  await db.exec(`
-      CREATE TABLE IF NOT EXISTS url_map (
-          index_key TEXT PRIMARY KEY,
-          url TEXT
-      )
-    `);
-
-  await db.close();
 }
