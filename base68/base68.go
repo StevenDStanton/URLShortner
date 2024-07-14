@@ -6,7 +6,7 @@ import (
 )
 
 var (
-	base68Chars = []byte("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-_*+!")
+	base68Chars = []byte("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-_~$!")
 )
 
 func IncrementBase68String(indexString string) string {
