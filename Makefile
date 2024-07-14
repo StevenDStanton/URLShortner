@@ -4,8 +4,8 @@ BUILD_DIR=build
 
 build:
 	@mkdir -p $(BUILD_DIR)
-	@GOOS=linux GOARCH=amd64 go build -o $(BUILD_DIR)/bootstrap $(SRC_DIR)/main.go
-	@zip -j $(BUILD_DIR)/function.zip $(BUILD_DIR)/bootstrap
+	@cd $(SRC_DIR) && GOOS=linux GOARCH=amd64 go build -o ../$(BUILD_DIR)/bootstrap main.go
+	@cd $(BUILD_DIR) && zip -j function.zip bootstrap
 	@rm $(BUILD_DIR)/bootstrap
 
 clean:
